@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>血缘关系图</title>
+    <link rel="stylesheet" href="./dacp-lib/element-ui/element-ui.min.css">
+    <link rel="stylesheet" href="./dacp-res/element-uex/element-uex.min.css">
+
+    <link rel="stylesheet" href="./css/sample.css">
+
+    <script src="./dacp-lib/vue/vue.min.js"></script>
+    <script src="./dacp-lib/element-ui/element-ui.min.js"></script>
+    <script src="./dacp-res/element-uex/element-uex.min.js"></script>
+
+    <script type="text/javascript" src="./lib/gojs/go.js"></script>
+    <script type="text/javascript" src="./js/CurvedLinkReshapingTool.js"></script>
+    <script type="text/javascript" src="./js/icons.js"></script>
+    <script src="./component/diagram.js"></script>
+</head>
+<body>
+<div id="sample" class="api-creator-container" style="height: 100%">
+    <diagram
+        ref="diagram"
+        :meta-data="metaData"
+        :default-hover="false"
+        :default-hover-config="defaultHoverConfig"
+        :node-type-config="nodeTypeConfig"
+        @model-changed="modelChanged"
+        @changed-selection="changedSelection"
+        @show-context-menu="show"
+        @hide-context-menu="hide"
+        @updated-model="diagramLoaded"
+        @double-click="doubleClick"
+        @init-diagram="setDiagram"
+        @node-mouse-hover="nodeMouseHover"
+        @click-right-button="clickRightButton"
+    >
+    <div slot="header">
+        <el-input placeholder="测试"></el-input>
+    </div>
+    <div slot="tool-header">
+        <el-input placeholder="测试"></el-input>
+    </div>
+    
+</diagram>
+</div>
+<script type="text/javascript" src="./js/Figure.js"></script>
+<script type="text/javascript" src="./js/sample.js"></script>
+</body>
+</html>
+

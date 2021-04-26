@@ -1,0 +1,189 @@
+.right-menu {
+    position: absolute;
+    z-index: 9999;
+    border: 1px solid #333333;
+    background: #5292F7;
+    padding: 10px;
+}
+.el-transfer > .el-transfer-panel {
+    width: 300px;
+}
+.el-transfer > .el-transfer-panel > el-transfer-panel__body {
+    height: 450px;
+}
+.el-transfer > .el-transfer-panel > el-transfer-panel__body .el-transfer-panel__list.is-filterable {
+    height: 380px;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.over-view-title {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 30px;
+    padding-left: 10px;
+}
+.diagram-header {
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    height: 50px;
+}
+
+.diagram-tools {
+    display: flex;
+    position: relative;
+    color: #495465;
+    font-weight: 400;
+    line-height: 36px;
+    padding: 7px 14px;
+    background: #F5F7FA;
+}
+.diagram-tools_header {
+    display: flex;
+}
+
+.diagram-tools .diagram-tools_lvl {
+    display: flex;
+    line-height: 36px;
+    margin: 0 10px;
+}
+
+.diagram-tools .diagram-tools_lvl .label{
+    line-height: 36px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.el-input-number--small {
+    margin-top: 4px;
+}
+
+.type-tips {
+    position: absolute;
+    left: 19px;
+}
+.type-tips_content {
+    margin-left: 5px;
+}
+.type-tips ul {
+    display: flex;
+}
+
+.type-tips ul li {
+    line-height: 30px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    /* width: 100px; */
+    margin-right: 20px;
+}
+
+.type-tips ul li span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+}
+
+.my-overview {
+    position: absolute;
+    width: 236px;
+    height: 133px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    bottom: 50px;
+    left: 0;
+}
+
+.diagram-search {
+    display: flex;
+}
+
+.diagram-search .diagram-search_statistics {
+    margin-left: 20px;
+}
+
+#infoBoxHolder {
+    z-index: 300;
+    position: absolute;
+    left: 5px;
+  }
+
+#infoBox {
+    border: 1px solid #999;
+    padding: 8px;
+    background-color: whitesmoke;
+    opacity: 0.9;
+    position: relative;
+    font-family: arial, helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* this is known as the "clearfix" hack to allow
+floated objects to add to the height of a div */
+#infoBox:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+span.infoTitle {
+    display: inline-block;
+  font-weight: normal;
+  color: #787878;
+  margin-left: 4px;
+}
+
+div.infoValues {
+  width: 30px;
+  text-align: right;
+  float: right;
+}
+
+label:hover, label:focus {
+  background: #CEDFF2;
+}
+
+.btnBox {
+    position: absolute;
+    bottom: 200px;
+    left: 0;
+    z-index: 9;
+    width: 30px;
+}
+
+.btnBox .el-button {
+    width: 30px;
+    height: 30px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+
+.btnBox .el-button+.el-button {
+    margin-left: 0px;
+}
+
+.btnBox .el-button--info.is-plain {
+    color: #8A929F;
+}
+
+.btnBox .el-button--info.is-plain:active {
+    border-color: #2D84FB;
+    color: #2D84FB;
+}
+
+.btnBox .el-button--info.is-plain:focus, .btnBox .el-button--info.is-plain:hover {
+    border-color: #2D84FB;
+    color: #2D84FB;
+}
