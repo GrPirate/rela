@@ -378,8 +378,8 @@ var diagramVm = new Vue({
 
 ### Callback Events
 | 事件名称 | 说明 | 回调参数 |
-|---------- |---------------------------------- |---------- |
-| model-changed | 模型改变事件 | - |
+|---------- |---------------------------------- |-- |
+| <div style="width: 200pt">model-changed</div> |  <div style="width: 200pt">模型改变事件</div> | - |
 | changed-selection | 选中节点改变事件 | - |
 | show-context-menu | 右键菜单打开事件 | - |
 | hide-context-menu | 右键菜单关闭事件 | - |
