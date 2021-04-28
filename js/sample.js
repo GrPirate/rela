@@ -3086,7 +3086,10 @@ var diagramVm = new Vue({
             // this.diagramData = diagramData
         },
         diagramLoaded: function (diagram) {
-          this.diagram = diagram
+          // this.diagram = diagram
+        },
+        LayoutCompleted: function (e, diagram) {
+          this.diagram.zoomToFit()
         },
         init: function () {
             this.load()

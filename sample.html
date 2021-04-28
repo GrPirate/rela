@@ -26,6 +26,7 @@
         :default-hover="false"
         :default-hover-config="defaultHoverConfig"
         :node-type-config="nodeTypeConfig"
+        layout="search,export,proc,lvl"
         @model-changed="modelChanged"
         @changed-selection="changedSelection"
         @show-context-menu="show"
@@ -35,6 +36,7 @@
         @init-diagram="setDiagram"
         @node-mouse-hover="nodeMouseHover"
         @click-right-button="clickRightButton"
+        @layout-completed="LayoutCompleted"
     >
     <div slot="header">
         <el-input placeholder="测试"></el-input>

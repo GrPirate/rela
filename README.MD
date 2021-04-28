@@ -363,6 +363,7 @@ var diagramVm = new Vue({
 | node-type-config | 节点类型配置（主要包括图标、详情内容） | Object | - | - |
 | options | 节点样式配置(详细配置看下表) | Object | -- | {} |
 | height | 画布高度 | Number | -- | 896 |
+| layout | 组件布局，子组件名用逗号分隔 | String | search,export,proc,lvl | search |
 
 
 
@@ -391,8 +392,8 @@ var diagramVm = new Vue({
 | click-left-button | 点击加号按钮事件（左） | data（当前节点数据），lvl（默认层级） |
 | check-all | 点击全选按钮事件 | checked |
 | lvl-change | 默认层级改变事件 | lvl |
-| layout-completed | 执行布局完成回调 | e |
-| selection-deleted | 节点删除回调 | e |
+| layout-completed | 执行布局完成回调 | diagram |
+| selection-deleted | 节点删除回调 | - |
 
 
 ### component Attributes

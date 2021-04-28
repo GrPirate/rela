@@ -533,7 +533,7 @@
         template: `
         <div style="width: 100%;">
             <div class="diagram-header">
-                <div class="diagram-search">
+                <div class="diagram-search" v-if="templateMap.search">
                     <el-form ref="form" :model="form" label-width="80px">
                         <el-form-item label="节点名称：">
                             <el-input v-model="form.name" @change="nodeNameChange" placeholder="请输入节点名称"></el-input>
@@ -545,17 +545,15 @@
                     </div>
                     <slot name="header"></slot>
                 </div>
-                <el-button @click="makeSvg" v-if="showExport">导出</el-button>
+                <el-button @click="makeSvg" v-if="templateMap.export">导出</el-button>
             </div>
             <div class="diagram-tools">
-                <div class="diagram-tools_header" v-if="showTools">
-                    <el-checkbox :value="showProc" @input="changeShowProc($event)">显示程序</el-checkbox>
-                    <div class="diagram-tools_lvl">
-                        <div class="label">显示层级</div>
-                        <el-input-number v-model="showLvls" size="small" controls-position="right" @change="lvlHandleChange"></el-input-number>
-                    </div>
-                    <el-checkbox v-show="isShowChecked" :value="checkedALL" @input="changeCheckAll($event)">全选</el-checkbox>
+                <el-checkbox v-if="templateMap.proc" :value="showProc" @input="changeShowProc($event)">显示程序</el-checkbox>
+                <div class="diagram-tools_lvl" v-if="templateMap.lvl">
+                    <div class="label">显示层级</div>
+                    <el-input-number v-model="showLvls" size="small" controls-position="right" @change="lvlHandleChange"></el-input-number>
                 </div>
+                <el-checkbox v-show="isShowChecked" :value="checkedALL" @input="changeCheckAll($event)">全选</el-checkbox>
                 <slot name="tool-header"></slot>
             </div>
             <div class="type-tips">
@@ -697,15 +695,11 @@
                     }
                 }
             },
+            layout: {
+                type: String,
+                default: 'search'
+            },
             showProc: { // 显示程序
-                type: Boolean,
-                default: false
-            },
-            showTools: { // 默认工具栏不显示
-                type: Boolean,
-                default: false
-            },
-            showExport: {
                 type: Boolean,
                 default: false
             }
@@ -738,6 +732,12 @@
                     modelData: { position: '0 0' },
                     nodeDataArray: [],
                     linkDataArray: []
+                },
+                templateMap: {
+                    proc: false,
+                    lvl: false,
+                    export: false,
+                    search: false
                 }
             }
         },
@@ -778,14 +778,15 @@
                 } : {}
             },
             heightStyle: function () {
-                var height = this.height || 869
+                // var height = this.height || 869
                 return {
-                    height: height + 'px'
+                    height: document.documentElement.clientHeight - 100 + 'px'
                 }
             }
         },
         mounted: function() {
             var self = this
+            this.initLayout()
             this.tableData2 = []
             var myContextMenu = GO(go.HTMLInfo, {
                 show: this.showContextMenu,
@@ -887,22 +888,22 @@
             // 绑定监听事件
             myDiagram.addDiagramListener('LinkDrawn', this.LinkDrawn.bind(this))
             myDiagram.addDiagramListener('LayoutCompleted', function (e, a) {
-                self.$emit('LayoutCompleted', e) // 布局完成事件
+                self.$emit('layout-completed', myDiagram) // 布局完成事件
             })
             myDiagram.addDiagramListener('ClipboardChanged', function (e, a) {
                 console.log(e, a)
-                self.$emit('ClipboardChanged', e)
+                self.$emit('clipboard-changed')
             })
             myDiagram.addDiagramListener('ClipboardPasted', function (e, a) {
                 console.log(e, a)
-                self.$emit('ClipboardPasted', e)
+                self.$emit('clipboard-pasted')
             })
             myDiagram.addDiagramListener('SelectionDeleted', function (e, a) {
                 console.log(e, a)
-                self.$emit('SelectionDeleted', e)
+                self.$emit('selection-deleted')
             })
             myDiagram.addDiagramListener('LinkRelinked', function(e) {
-                console.log('LinkRelinked: ', e)
+                console.log('link-relinked: ')
             })
 
             myDiagram.nodeTemplate = templateCommon(self, tablePanel)
@@ -954,7 +955,7 @@
             // if (!this.isPng) this.zoomSlider = new ZoomSlider(myDiagram);
 
             this.diagram = myDiagram
-            this.$emit('initDiagram', myDiagram)
+            this.$emit('init-diagram', myDiagram)
 
             this.updateModel(this.modelData)
 
@@ -972,6 +973,13 @@
             }
         },
         methods: {
+            initLayout () {
+                var self = this
+                var layout = this.layout.split(',')
+                layout.forEach(function (v) {
+                    self.templateMap[v] = true
+                })
+            },
             /**
              * 检查图形是否只有一条链路（通过判断没有子节点的个数：有且仅有一个节点成立）
              */
@@ -1191,7 +1199,7 @@
                 this.modelData.nodeDataArray = nodeList;
                 this.modelData.linkDataArray = linkList;
                 this.updateModel(this.modelData)
-                this.scrollToPart(0)
+                // this.scrollToPart(0)
                 this.loading = false
             },
             /**
@@ -1227,6 +1235,7 @@
                             }
                         }
                         this.modelData.nodeDataArray.push(v)
+                        // this.diagram.model.addNodeData(v)
                     }
                 }
                 for (let i = 0; i < links.length; i++) {
@@ -1237,11 +1246,14 @@
                             from: v.from,
                             to: v.to
                         })
+                        // this.diagram.model.addLinkData({
+                        //     from: v.from,
+                        //     to: v.to
+                        // })
                     }
                 }
                 this.updateModel(this.modelData)
-                this.diagram.layoutDiagram(true)
-                this.scrollToPart(0)
+                // this.diagram.layoutDiagram(true)
                 this.loading = false;
             },
             // when a node is double-clicked, callback
