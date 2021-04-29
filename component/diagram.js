@@ -1,9 +1,6 @@
     var GO = go.GraphObject.make
     var hightLightColorForLine="#0562A1";
-    var noHightLightColorForLine="#AAB0BD";
-
-    var firstTitleColor = "#ffffff";
-
+    var noHightLightColorForLine="#AAB0BD"
 
     var stateMap = {
         'UNSTATE': {
@@ -536,7 +533,7 @@
                 <div class="diagram-search" v-if="templateMap.search">
                     <el-form ref="form" :model="form" label-width="80px">
                         <el-form-item label="节点名称：">
-                            <el-input v-model="form.name" @change="nodeNameChange" placeholder="请输入节点名称"></el-input>
+                            <el-input v-model="form.name" placeholder="请输入节点名称"></el-input>
                         </el-form-item>
                     </el-form>
                     <div class="diagram-search_statistics" v-show="!!form.name">
@@ -970,6 +967,9 @@
         watch: {
             modelData: function(val) {
                 this.updateModel(val)
+            },
+            'form.name': function (val) {
+                this.nodeNameChange(val)
             }
         },
         methods: {
@@ -1207,7 +1207,7 @@
              * @param {*} nodes 节点集合
              * @param {*} links 连线集合
              */
-            handleDiagramData: function (nodes, links) {
+            handleDiagramData: function (nodes, links, currentNode) {
                 var modeMap = {}
                 // var dataNodes = []
                 var linkMap = {}
@@ -1234,26 +1234,42 @@
                                 v.items.push(temp)
                             }
                         }
-                        this.modelData.nodeDataArray.push(v)
-                        // this.diagram.model.addNodeData(v)
+                        // this.modelData.nodeDataArray.push(v)
+                        this.diagram.model.addNodeData(v)
+                    } else if (currentNode && currentNode.data.key == v.key) {
+                        
+                        if (!v.items) {
+                            v.items = []
+                            var nodeDetailKeys = Object.keys(nodeConfig.nodeDetail)
+                            for (let j = 0; j < nodeDetailKeys.length; j++) {
+                                let temp = {
+                                    name: nodeConfig.nodeDetail[nodeDetailKeys[j]],
+                                    label:  v[nodeDetailKeys[j]]
+                                }
+                                v.items.push(temp)
+                            }
+                        }
+                        Object.keys(v).forEach(function (key) {
+                            this.diagram.model.setDataProperty(modeMap[v.key], key, v[key])
+                        }.bind(this))
                     }
                 }
                 for (let i = 0; i < links.length; i++) {
                     let v = links[i]
                     var ft = v.from + v.to
                     if (!linkMap[ft]) {
-                        this.modelData.linkDataArray.push({
-                            from: v.from,
-                            to: v.to
-                        })
-                        // this.diagram.model.addLinkData({
+                        // this.modelData.linkDataArray.push({
                         //     from: v.from,
                         //     to: v.to
                         // })
+                        this.diagram.model.addLinkData({
+                            from: v.from,
+                            to: v.to
+                        })
                     }
                 }
-                this.updateModel(this.modelData)
-                // this.diagram.layoutDiagram(true)
+                // this.updateModel(this.modelData)
+                this.diagram.layoutDiagram(true)
                 this.loading = false;
             },
             // when a node is double-clicked, callback
@@ -1354,5 +1370,13 @@
                     this.diagram.commitTransaction("");
                 }
             },
+            // 判断是否有上游节点
+            isInto: function (node) {
+                return node.findNodesInto().iterator.count > 0
+            },
+            // 判断是否有下游节点
+            isOutOf: function (node) {
+                return node.findNodesOutOf().iterator.count > 0
+            }
         }
     })

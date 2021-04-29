@@ -409,3 +409,5 @@ var diagramVm = new Vue({
 | handleDiagramData | 增量更新血缘数据 | nodeList, linkList | -- |
 | checkDiagramUnique | 检查图形是否只有一条链路（通过判断没有子节点的个数：有且仅有一个节点成立） | -- | Boolean |
 | doLayout | 执行布局 | -- | -- |
+| isInto | 判断是否有上游节点 | Node | Boolean |
+| isOutOf | 判断是否有下游节点 | Node | Boolean |

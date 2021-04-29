@@ -2798,7 +2798,7 @@ var diagramVm = new Vue({
                     
                     self.getRela()
                         .then(function (res) {
-                          self.$refs.diagram.handleDiagramData(res.nodesTmp, res.linksTmp)
+                          self.$refs.diagram.handleDiagramData(res.nodesTmp, res.linksTmp, node)
                         }.bind(self))
                 },
                 isVisible: function(diagram, node) { return !!node }
@@ -2898,6 +2898,13 @@ var diagramVm = new Vue({
               label: 'Edit Text', // 编辑可编辑文本
                 command: function (diagram) { diagram.commandHandler.editTextBlock(); },
                 isVisible: function (diagram) { return diagram.commandHandler.canEditTextBlock(); }
+            }, {
+              label: 'findInto', // 编辑可编辑文本
+                command: function (diagram, node) { 
+                  console.log(self.$refs.diagram.isInto(node))
+                  console.log(self.$refs.diagram.isOutOf(node))
+                 },
+                isVisible: function (diagram, node) { return !!node; }
             }],
             diagram: null,
             currentData: {},
@@ -3089,7 +3096,7 @@ var diagramVm = new Vue({
           // this.diagram = diagram
         },
         LayoutCompleted: function (e, diagram) {
-          this.diagram.zoomToFit()
+          // this.diagram.zoomToFit()
         },
         init: function () {
             this.load()
@@ -3135,6 +3142,7 @@ var diagramVm = new Vue({
                 }.bind(this))
         },
         doubleClick: function(node) {
+          this.$refs.diagram.form.name = node.data.text
           console.log(node)
         }
     }
